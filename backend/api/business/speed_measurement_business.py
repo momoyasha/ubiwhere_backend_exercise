@@ -2,7 +2,6 @@ from api.models.speed_measurement import SpeedMeasurement
 import csv
 from django.conf import settings
 from django.contrib.gis.geos import Point
-from api.repository.speed_measurement_repository import SpeedMeasurementRepository
 
 
 class SpeedMeasurementBusiness:
