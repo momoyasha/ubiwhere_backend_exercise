@@ -2,6 +2,7 @@ from api.models.speed_measurement import SpeedMeasurement
 import csv
 from django.conf import settings
 from django.contrib.gis.geos import Point
+from api.repository.speed_measurement_repository import SpeedMeasurementRepository
 
 
 class SpeedMeasurementBusiness:
@@ -29,3 +30,7 @@ class SpeedMeasurementBusiness:
                     length=row["Length"],
                     speed=float(row["Speed"]),
                 )
+
+                data_points.append(obj)
+
+            SpeedMeasurement.objects.bulk_create(data_points)
