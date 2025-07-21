@@ -24,3 +24,16 @@ class SpeedMeasurementRepository:
         except Exception as ex:
             logger.error(f"Erro ao salvar SpeedMeasurement - [{ex}]")
             return None
+
+    @staticmethod
+    def get_all_speed_measurements():
+        """
+        Retorna todos os objetos SpeedMeasurements salvos.
+        """
+        try:
+            speed_measurements = list(SpeedMeasurement.objects.all())
+        except Exception as ex:
+            logger.info(ex)
+            speed_measurements = None
+
+        return speed_measurements
