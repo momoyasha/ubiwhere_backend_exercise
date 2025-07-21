@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.gis.db.models import PointField
+from django.db.models import Q, CheckConstraint
 
 
 class SpeedMeasurement(models.Model):
@@ -12,3 +13,5 @@ class SpeedMeasurement(models.Model):
     end_point = PointField(null=False, blank=False)
     length = models.FloatField(null=False, blank=False)
     speed = models.FloatField(null=False, blank=False)
+    created_at = models.DateTimeField(blank=False, null=False, auto_now_add=True)
+    updated_at = models.DateTimeField(blank=False, null=False, auto_now=True)
