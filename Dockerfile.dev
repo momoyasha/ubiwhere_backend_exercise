@@ -1,0 +1,30 @@
+FROM python:3.11-slim
+
+# Evita prompts interativos durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala dependências necessárias
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        gdal-bin \
+        libgdal-dev \
+        binutils \
+        libproj-dev \
+        libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Variáveis para compilar GDAL com sucesso
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
+
+WORKDIR /app
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# expõe a porta do Django
+EXPOSE 8000
+
+# monta o código via volume no docker-compose
+CMD ["sh", "-c", "python backend/manage.py migrate && python backend/manage.py runserver 0.0.0.0:8000"]
