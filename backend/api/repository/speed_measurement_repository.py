@@ -1,5 +1,6 @@
 from api.models.speed_measurement import SpeedMeasurement
 
+
 import logging
 
 logger = logging.getLogger(__name__)
