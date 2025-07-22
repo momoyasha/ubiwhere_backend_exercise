@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework_gis",
     "django.contrib.gis",
     "api",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -179,4 +180,11 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Backend Exercise",
+    "DESCRIPTION": "Endpoints que possibilitam a visualização, criação, edição ou exclusão de dados de medição de velocidade ou segmentos de estrada.",
+    "VERSION": "0.0.1",
 }
