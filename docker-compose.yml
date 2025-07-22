@@ -24,9 +24,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app/backend
-    command: >
-      sh -c "python backend/manage.py migrate &&
-             python backend/manage.py runserver 0.0.0.0:8000"
 
 volumes:
   postgres_data:

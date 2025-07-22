@@ -1,9 +1,7 @@
 FROM python:3.11-slim
 
-# Evita prompts interativos durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instala dependências necessárias
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
@@ -23,8 +21,12 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# expõe a porta do Django
 EXPOSE 8000
 
-# monta o código via volume no docker-compose
-CMD ["sh", "-c", "python backend/manage.py migrate && python backend/manage.py runserver 0.0.0.0:8000"]
+COPY wait-for-it.sh /wait-for-it.sh
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /wait-for-it.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
