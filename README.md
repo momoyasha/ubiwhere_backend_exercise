@@ -5,9 +5,7 @@ Um projeto backend usando Python/Django a título de exercício.
 
 
 ## Requisitos
-
-- Python 3.11
-- Docker
+- [Docker](https://www.docker.com/)
 
 ## Instalação
 Clone o projeto com:
