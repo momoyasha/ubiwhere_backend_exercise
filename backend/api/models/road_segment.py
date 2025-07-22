@@ -17,8 +17,9 @@ class RoadSegment(models.Model):
     def __str__(self) -> str:
         return f"{self.__class__.__name__} [{self.id}]"
 
-    constraints = [
-        models.UniqueConstraint(
-            fields=["start_point", "end_point"], name="unique_start_point_end_point"
-        )
-    ]
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["start_point", "end_point"], name="unique_start_point_end_point"
+            )
+        ]
