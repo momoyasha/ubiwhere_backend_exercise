@@ -184,7 +184,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Backend Exercise",
+    "TITLE": "Ubiwhere Backend Exercise",
     "DESCRIPTION": "Endpoints que possibilitam a visualização, criação, edição ou exclusão de dados de medição de velocidade ou segmentos de estrada.",
     "VERSION": "0.0.1",
 }
