@@ -9,7 +9,7 @@ class SpeedMeasurement(models.Model):
     Instância de medição de velocidade média.
     """
 
-    measurement_id = models.IntegerField(null=False, blank=False, unique=True)
+    measurement_id = models.IntegerField(null=True, blank=True)
     road_segment = models.ForeignKey(RoadSegment, on_delete=models.CASCADE)
     speed = models.FloatField(null=False, blank=False)
     created_at = models.DateTimeField(blank=False, null=False, auto_now_add=True)
