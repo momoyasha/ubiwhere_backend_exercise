@@ -1,6 +1,10 @@
 from api.models.speed_interval import SpeedInterval
 from api.repository.speed_interval_repository import SpeedIntervalRepository
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class SpeedIntervalBusiness:
     """
@@ -19,7 +23,7 @@ class SpeedIntervalBusiness:
             # se a velocidade é maior do que a mínima (se esta existir)
             # e menor do que a máxima (se esta existir)
             if (not interval.min_speed or speed > interval.min_speed) and (
-                not interval.max_speed or speed < interval.max_speed
+                not interval.max_speed or speed <= interval.max_speed
             ):
                 return interval
 
