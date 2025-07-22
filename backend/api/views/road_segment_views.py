@@ -6,16 +6,75 @@ from api.repository.road_segment_repository import RoadSegmentRepository
 from api.serializers.road_segment_serializer import (
     RoadSegmentSerializer,
     MeasurementsPerRoadSegmentSerializer,
+    RoadSegmentWriteSerializer,
+    StatusResponseSerializer,
 )
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 
+@extend_schema_view(
+    list=extend_schema(
+        description="Lista todos os segmentos de estrada",
+        responses=RoadSegmentSerializer(many=True),
+    ),
+    retrieve=extend_schema(
+        description="Retorna um segmento de estrada específico",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno do segmento de estrada",
+                required=True,
+            ),
+        ],
+        responses=RoadSegmentSerializer,
+    ),
+    create=extend_schema(
+        description="Cria um novo segmento de estrada",
+        request=RoadSegmentWriteSerializer,
+        responses=StatusResponseSerializer,
+    ),
+    update=extend_schema(
+        description="Atualiza um segmento de estrada existente",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno do segmento de estrada",
+                required=True,
+            ),
+        ],
+        request=RoadSegmentWriteSerializer,
+        responses=StatusResponseSerializer,
+    ),
+    destroy=extend_schema(
+        description="Exclui um segmento de estrada",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno do segmento de estrada",
+                required=True,
+            ),
+        ],
+        responses=StatusResponseSerializer,
+    ),
+)
 class RoadSegmentViewSet(ViewSet):
     """
-    Viewset de instâncias de medida de velocidade média.
-
-    <expandir a documentação>
+    Viewset para retorno de dados partindo de segmentos de estrada.
     """
+
+    # Preciso disso porque o drf_spectacular está enxergando
+    # "id" como parâmetro por alguma razão, não entendo o pq
+    lookup_field = "id"
+    lookup_url_kwarg = "id"
+    lookup_value_regex = r"\d+"
 
     http_method_names = ["post", "get", "put", "delete"]
 
@@ -30,17 +89,17 @@ class RoadSegmentViewSet(ViewSet):
             RoadSegmentSerializer(data, many=True).data, status=status.HTTP_200_OK
         )
 
-    def retrieve(self, request, pk):
-        data = RoadSegmentRepository.get_road_segment_by_id(id=pk)
+    def retrieve(self, request, id):
+        data = RoadSegmentRepository.get_road_segment_by_id(id=id)
         return Response(RoadSegmentSerializer(data).data, status=status.HTTP_200_OK)
 
-    def destroy(self, request, pk=None):
-        response = RoadSegmentRepository.delete_road_segment_by_id(id=pk)
+    def destroy(self, request, id=None):
+        response = RoadSegmentRepository.delete_road_segment_by_id(id=id)
         return Response({"status": response}, status=status.HTTP_200_OK)
 
-    def update(self, request, pk):
+    def update(self, request, id):
         response = RoadSegmentRepository.update_road_segment(
-            id=pk, new_data=request.data
+            id=id, new_data=request.data
         )
         return Response({"status": response}, status=status.HTTP_200_OK)
 
@@ -60,6 +119,19 @@ class RoadSegmentRelatedDataView(APIView):
 
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        description="Retorna a quantidade de medições de velocidade por segmento de estrada",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno do segmento de estrada",
+                required=True,
+            ),
+        ],
+        responses=MeasurementsPerRoadSegmentSerializer(many=True),
+    )
     def get(self, request):
         response = RoadSegmentRepository.get_speed_measurements_per_road()
         return Response(

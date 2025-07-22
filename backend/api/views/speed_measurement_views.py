@@ -1,11 +1,69 @@
 from rest_framework.response import Response
 from rest_framework import status
-from api.serializers.speed_measurement_serializer import SpeedMeasurementReadSerializer
+from api.serializers.speed_measurement_serializer import (
+    SpeedMeasurementReadSerializer,
+    SpeedMeasurementWriteSerializer,
+    StatusResponseSerializer,
+)
 from rest_framework.viewsets import ViewSet
 from rest_framework.permissions import AllowAny, IsAdminUser
 from api.repository.speed_measurement_repository import SpeedMeasurementRepository
 
+from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Lista todas as medições de velocidade",
+        responses=SpeedMeasurementReadSerializer(many=True),
+    ),
+    retrieve=extend_schema(
+        description="Retorna uma medição de velocidade específica",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno da medição",
+                required=True,
+            ),
+        ],
+        responses=SpeedMeasurementReadSerializer,
+    ),
+    create=extend_schema(
+        description="Cria uma nova medição de velocidade",
+        request=SpeedMeasurementWriteSerializer,
+        responses=StatusResponseSerializer,
+    ),
+    update=extend_schema(
+        description="Atualiza uma  medição de velocidade",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno da medição",
+                required=True,
+            ),
+        ],
+        request=SpeedMeasurementWriteSerializer,
+        responses=StatusResponseSerializer,
+    ),
+    destroy=extend_schema(
+        description="Exclui uma  medição de velocidade",
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description="ID interno da medição",
+                required=True,
+            ),
+        ],
+        responses=StatusResponseSerializer,
+    ),
+)
 class SpeedMeasurementViewSet(ViewSet):
     """
     Viewset de instâncias de medida de velocidade média.

@@ -23,7 +23,8 @@ class DebugView(APIView):
 
 class PopulateInitialDataView(APIView):
     """
-    Popula a base de dados com os dados iniciais fornecidos em traffic_speed.csv
+    Popula a base de dados com os dados iniciais fornecidos em traffic_speed.csv.
+    Também cria intervalos de velocidade para referência.
     """
 
     def get(self, request):
