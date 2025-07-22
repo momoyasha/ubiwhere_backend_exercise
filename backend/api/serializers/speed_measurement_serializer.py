@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
+from api.models.road_segment import RoadSegment
+from api.models.speed_measurement import SpeedMeasurement
 
 
 class RoadSegmentSerializer(serializers.Serializer):
@@ -12,7 +14,7 @@ class TrafficIntensitySerializer(serializers.Serializer):
     criticality_text = serializers.CharField()
 
 
-class SpeedMeasurementSerializer(serializers.Serializer):
+class SpeedMeasurementReadSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     measurement_id = serializers.IntegerField()
     road_segment = RoadSegmentSerializer()
@@ -20,3 +22,23 @@ class SpeedMeasurementSerializer(serializers.Serializer):
     traffic_intensity = TrafficIntensitySerializer()
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
+
+
+class SpeedMeasurementWriteSerializer(serializers.Serializer):
+    speed = serializers.FloatField()
+
+    # conecta o id fornecido no post com um objeto RoadSegment existente
+    road_segment = serializers.PrimaryKeyRelatedField(
+        queryset=RoadSegment.objects.all()
+    )
+
+    def update(self, instance, validated_data):
+        instance.speed = validated_data.get("speed", instance.speed)
+        instance.road_segment = validated_data.get(
+            "road_segment", instance.road_segment
+        )
+        instance.save()
+        return instance
+
+    def create(self, validated_data):
+        return SpeedMeasurement.objects.create(**validated_data)

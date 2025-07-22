@@ -1,4 +1,5 @@
 from api.models.speed_measurement import SpeedMeasurement
+from api.serializers.speed_measurement_serializer import SpeedMeasurementWriteSerializer
 
 
 import logging
@@ -85,7 +86,46 @@ class SpeedMeasurementRepository:
         return speed_measurements
 
     @staticmethod
-    def add_speed_classification():
+    def update_speed_measurement(id: int, new_data: dict):
         """
-        Adiciona o atributo "intensity" a SpeedMeasurement.
+        Atualiza informações da medição de velocidade especificada.
         """
+        status_message = ""
+
+        try:
+            speed_measurement = SpeedMeasurement.objects.get(id=id)
+        except SpeedMeasurement.DoesNotExist:
+            status_message = f"Registro de medição de velocidade (id: [{id}]) não encontrado na base de dados."
+            logger.info(status_message)
+            return status_message
+
+        serializer = SpeedMeasurementWriteSerializer(
+            instance=speed_measurement, data=new_data, partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            status_message = f"Registro de medição de velocidade (id: [{id}]) atualizado com sucesso."
+        else:
+            status_message = f"Erro de validação: {serializer.errors}"
+
+        logger.info(status_message)
+        return status_message
+
+    @staticmethod
+    def create_speed_measurement(new_data: dict):
+        """
+        Cria um novo medição de velocidade a partir dos dados fornecidos.
+        """
+        status_message = ""
+
+        serializer = SpeedMeasurementWriteSerializer(data=new_data)
+
+        if serializer.is_valid():
+            speed_measurement = serializer.save()
+            status_message = f"Registro de medição de velocidade (id: [{speed_measurement.id}]) criado com sucesso."
+        else:
+            status_message = f"Erro de validação: {serializer.errors}"
+
+        logger.error(status_message)
+        return status_message
