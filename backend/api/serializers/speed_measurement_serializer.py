@@ -12,5 +12,6 @@ class SpeedMeasurementSerializer(serializers.Serializer):
     measurement_id = serializers.IntegerField()
     road_segment = RoadSegmentSerializer()
     speed = serializers.FloatField()
+    intensity = serializers.CharField(default=None)
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
