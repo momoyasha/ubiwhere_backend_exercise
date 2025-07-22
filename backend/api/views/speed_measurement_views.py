@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from api.serializers.speed_measurement_serializer import SpeedMeasurementSerializer
 from rest_framework.viewsets import ViewSet
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from api.repository.speed_measurement_repository import SpeedMeasurementRepository
 
 
@@ -13,8 +13,12 @@ class SpeedMeasurementViewSet(ViewSet):
     <expandir a documentação>
     """
 
-    http_method_names = ["get"]
-    permission_classes = [AllowAny]
+    http_method_names = ["get", "put", "patch", "delete"]
+
+    def get_permissions(self):
+        if self.action in ["list", "retrieve"]:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     def list(self, request):
         data = SpeedMeasurementRepository.get_all_speed_measurements()
