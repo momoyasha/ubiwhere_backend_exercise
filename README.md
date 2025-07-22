@@ -28,7 +28,7 @@ A base de dados será criada via docker-compose utilizando essas variáveis, que
 Em um prompt de comando na pasta raíz do projeto, execute:
 ```
   docker compose build --no-cache
-  docker-compose up
+  docker-compose up -d
 ```
     
 Isso vai criar um projeto com dois containeres, um para a base de dados em PostgreSQL (PostGIS) e um para o servidor Django.
