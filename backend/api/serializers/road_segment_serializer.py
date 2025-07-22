@@ -27,3 +27,13 @@ class MeasurementsPerRoadSegmentSerializer(serializers.Serializer):
     count_of_speed_measurements = serializers.IntegerField(
         source="speed_measurement_count"
     )
+
+
+class RoadSegmentWriteSerializer(serializers.Serializer):
+    start_point = GeometryField()
+    end_point = GeometryField()
+    length = serializers.FloatField()
+
+
+class StatusResponseSerializer(serializers.Serializer):
+    status = serializers.CharField()

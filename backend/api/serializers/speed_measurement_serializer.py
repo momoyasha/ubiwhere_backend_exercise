@@ -45,3 +45,7 @@ class SpeedMeasurementWriteSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return SpeedMeasurement.objects.create(**validated_data)
+
+
+class StatusResponseSerializer(serializers.Serializer):
+    status = serializers.CharField()
