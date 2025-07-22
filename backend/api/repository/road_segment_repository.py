@@ -41,3 +41,5 @@ class RoadSegmentRepository:
             logger.info(f"Segmento cadastrado: ({road_segment})")
         except Exception as ex:
             logger.error(ex)
+
+        return road_segment
