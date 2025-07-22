@@ -129,3 +129,14 @@ class SpeedMeasurementRepository:
 
         logger.error(status_message)
         return status_message
+
+    @staticmethod
+    def get_count_of_measurements_by_road_segment_id(road_segment_id: int):
+        try:
+            count = SpeedMeasurement.objects.filter(
+                road_segment__id=road_segment_id
+            ).count()
+        except Exception as ex:
+            count = 0
+
+        return count
