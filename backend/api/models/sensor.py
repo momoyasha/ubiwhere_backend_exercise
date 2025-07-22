@@ -7,5 +7,5 @@ class Sensor(models.Model):
     """
 
     sensor_id = models.IntegerField(blank=False, null=False)
-    name = models.TextField(blank=False, null=False)
-    uuid = models.TextField(blank=False, null=False)
+    name = models.CharField(blank=False, null=False)
+    uuid = models.CharField(blank=False, null=False)
