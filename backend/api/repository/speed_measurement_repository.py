@@ -49,3 +49,43 @@ class SpeedMeasurementRepository:
             speed_measurement = None
 
         return speed_measurement
+
+    @staticmethod
+    def delete_speed_measurement_by_id(id: int):
+        """
+        Exclui um objeto SpeedMeasurement da base de dados a partir do id interno.
+        """
+        status_message = ""
+        if not id:
+            status_message = "É necessário especificar um id para remoção."
+        try:
+            speed_measurement = SpeedMeasurement.objects.get(id=id)
+            speed_measurement.delete()
+            status_message = f"Registro de velocidade (id: [{id}]) excluído da base de dados com sucesso."
+            logger.info(status_message)
+        except SpeedMeasurement.DoesNotExist:
+            status_message = (
+                f"Registro de velocidade (id: [{id}]) não encontrado na base de dados."
+            )
+
+        return status_message
+
+    @staticmethod
+    def get_speed_measurements_by_road_segment_id(road_segment_id: int):
+        """
+        Retorna uma lista de medidas de velocidade para um dado segmento de estrada.
+        """
+        try:
+            speed_measurements = SpeedMeasurement.objects.filter(
+                road_segment__id=road_segment_id
+            )
+        except Exception as ex:
+            speed_measurements = []
+
+        return speed_measurements
+
+    @staticmethod
+    def add_speed_classification():
+        """
+        Adiciona o atributo "intensity" a SpeedMeasurement.
+        """
