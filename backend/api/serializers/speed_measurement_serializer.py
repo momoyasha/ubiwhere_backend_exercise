@@ -7,11 +7,16 @@ class RoadSegmentSerializer(serializers.Serializer):
     end_point = GeometryField()
 
 
+class TrafficIntensitySerializer(serializers.Serializer):
+    criticality = serializers.CharField()
+    criticality_text = serializers.CharField()
+
+
 class SpeedMeasurementSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     measurement_id = serializers.IntegerField()
     road_segment = RoadSegmentSerializer()
     speed = serializers.FloatField()
-    intensity = serializers.CharField(default=None)
+    traffic_intensity = TrafficIntensitySerializer()
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
