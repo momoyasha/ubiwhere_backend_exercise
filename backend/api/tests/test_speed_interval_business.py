@@ -25,7 +25,6 @@ class SpeedIntervalBusinessTests(TestCase):
         self.assertEqual(interval_1.criticality, 0)
 
         interval_2 = SpeedIntervalBusiness.check_speed_classification(20)
-        logger.info(f"test_traffic_status_high - {interval_2}")
         self.assertIsNotNone(interval_2)
         self.assertEqual(interval_2.criticality, 0)
 
