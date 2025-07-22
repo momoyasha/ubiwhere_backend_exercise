@@ -11,12 +11,13 @@ class SpeedInterval(models.Model):
 
     # id = models.AutoField(primary_key=True)
     criticality = models.IntegerField(blank=False, null=False, unique=True)
+    criticality_text = models.CharField(blank=False, null=False, unique=True)
     updated_at = models.DateTimeField(blank=False, null=False, auto_now=True)
     min_speed = models.FloatField(blank=True, null=True)
     max_speed = models.FloatField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.__class__.__name__} (nível {self.criticality})"
+        return f"{self.__class__.__name__} (nível {self.criticality}: {self.criticality_text})"
 
     class Meta:
         constraints = [
