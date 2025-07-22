@@ -4,6 +4,10 @@ from django.conf import settings
 from django.contrib.gis.geos import Point
 from api.repository.road_segment_repository import RoadSegmentRepository
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class SpeedMeasurementBusiness:
     """
@@ -36,4 +40,7 @@ class SpeedMeasurementBusiness:
 
                 data_points.append(obj)
 
-            SpeedMeasurement.objects.bulk_create(data_points)
+            try:
+                SpeedMeasurement.objects.bulk_create(data_points)
+            except Exception as ex:
+                logger.info(ex)
