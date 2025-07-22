@@ -10,7 +10,6 @@ Um projeto backend usando Python/Django a título de exercício.
 - Docker
 
 ## Variáveis de Ambiente
-
 Para rodar esse projeto, é necessário criar um arquivo .env na raíz do projeto com as seguintes chaves:
 
 ```
@@ -20,6 +19,12 @@ POSTGRES_DB=[nome da base de dados]
 ```
 A base de dados será criada via docker-compose utilizando essas variáveis, que também serão usadas pelo Django para estabelecer a conexão.
 ## Instalação
+Clone o projeto com:
+
+```bash
+  git clone https://link-para-o-projeto
+```
+Ou faça download como .zip e extraia em algum diretório.
 
 Em um prompt de comando na pasta raíz do projeto, execute:
 ```
