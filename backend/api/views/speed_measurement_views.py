@@ -17,11 +17,13 @@ class SpeedMeasurementViewSet(ViewSet):
     permission_classes = [AllowAny]
 
     def list(self, request):
-        plane = SpeedMeasurementRepository.get_all_speed_measurements()
+        data = SpeedMeasurementRepository.get_all_speed_measurements()
         return Response(
-            SpeedMeasurementSerializer(plane, many=True).data, status=status.HTTP_200_OK
+            SpeedMeasurementSerializer(data, many=True).data, status=status.HTTP_200_OK
         )
 
-    # def retrieve(self, request, pk):
-    #     plane = PlaneRepository.get_plane_by_id(id=pk)
-    #     return Response(PlaneSerializer(plane).data, status=status.HTTP_200_OK)
+    def retrieve(self, request, pk):
+        data = SpeedMeasurementRepository.get_speed_measurement_by_id(id=pk)
+        return Response(
+            SpeedMeasurementSerializer(data).data, status=status.HTTP_200_OK
+        )

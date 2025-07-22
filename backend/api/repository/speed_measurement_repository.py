@@ -37,3 +37,15 @@ class SpeedMeasurementRepository:
             speed_measurements = None
 
         return speed_measurements
+
+    @staticmethod
+    def get_speed_measurement_by_id(id: int):
+        """
+        Retorna um objeto SpeedMeasurements a partir do id interno.
+        """
+        try:
+            speed_measurement = SpeedMeasurement.objects.get(id=id)
+        except SpeedMeasurement.DoesNotExist:
+            speed_measurement = None
+
+        return speed_measurement
