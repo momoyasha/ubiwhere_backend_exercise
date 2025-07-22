@@ -41,7 +41,7 @@ class SpeedMeasurementRepository:
     @staticmethod
     def get_speed_measurement_by_id(id: int):
         """
-        Retorna um objeto SpeedMeasurements a partir do id interno.
+        Retorna um objeto SpeedMeasurement a partir do id interno.
         """
         try:
             speed_measurement = SpeedMeasurement.objects.get(id=id)
