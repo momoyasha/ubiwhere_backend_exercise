@@ -43,3 +43,28 @@ class RoadSegmentRepository:
             logger.error(ex)
 
         return road_segment
+
+    @staticmethod
+    def get_all_road_segments():
+        """
+        Retorna todos os objetos RoadSegments salvos.
+        """
+        try:
+            road_segment = list(RoadSegment.objects.all())
+        except Exception as ex:
+            logger.info(ex)
+            road_segment = None
+
+        return road_segment
+
+    @staticmethod
+    def get_road_segment_by_id(id: int):
+        """
+        Retorna um objeto RoadSegment a partir do id interno.
+        """
+        try:
+            road_segment = RoadSegment.objects.get(id=id)
+        except RoadSegment.DoesNotExist:
+            road_segment = None
+
+        return road_segment
