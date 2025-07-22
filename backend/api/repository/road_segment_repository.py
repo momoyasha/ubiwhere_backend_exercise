@@ -1,6 +1,7 @@
 from api.models.road_segment import RoadSegment
 from django.contrib.gis.geos import Point
 from api.serializers.road_segment_serializer import RoadSegmentSerializer
+from django.db.models import Count
 
 import logging
 
@@ -134,3 +135,23 @@ class RoadSegmentRepository:
 
         logger.error(status_message)
         return status_message
+
+    @staticmethod
+    def get_speed_measurements_per_road():
+        """
+        Retorna a contagem de medidas de velocidade para cada segmento
+        de estrada cadastrado.
+        """
+
+        try:
+            values = (
+                RoadSegment.objects.annotate(
+                    speed_measurement_count=Count("speedmeasurement")
+                )
+                .order_by("id")
+                .values("id", "speed_measurement_count")
+            )
+        except Exception:
+            values = []
+
+        return values

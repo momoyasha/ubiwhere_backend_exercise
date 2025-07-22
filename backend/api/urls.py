@@ -1,6 +1,7 @@
 from rest_framework.routers import DefaultRouter
 from api.views.speed_measurement_views import SpeedMeasurementViewSet
-from api.views.road_segment_views import RoadSegmentViewSet
+from api.views.road_segment_views import RoadSegmentViewSet, RoadSegmentRelatedDataView
+from django.urls import path
 
 router = DefaultRouter()
 
@@ -9,7 +10,15 @@ router.register(
     SpeedMeasurementViewSet,
     basename="speed_measurement",
 )
+
 router.register(r"road_segments", RoadSegmentViewSet, basename="road_segment")
 
+api_view_patterns = [
+    path(
+        "measurements_per_road/",
+        RoadSegmentRelatedDataView.as_view(),
+        name="measurements-per-road",
+    ),
+]
 
-urlpatterns = router.urls
+urlpatterns = router.urls + api_view_patterns

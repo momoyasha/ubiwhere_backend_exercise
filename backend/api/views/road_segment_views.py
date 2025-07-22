@@ -3,7 +3,11 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.permissions import AllowAny, IsAdminUser
 from api.repository.road_segment_repository import RoadSegmentRepository
-from api.serializers.road_segment_serializer import RoadSegmentSerializer
+from api.serializers.road_segment_serializer import (
+    RoadSegmentSerializer,
+    MeasurementsPerRoadSegmentSerializer,
+)
+from rest_framework.views import APIView
 
 
 class RoadSegmentViewSet(ViewSet):
@@ -43,3 +47,22 @@ class RoadSegmentViewSet(ViewSet):
     def create(self, request):
         response = RoadSegmentRepository.create_road_segment(new_data=request.data)
         return Response({"status": response}, status=status.HTTP_200_OK)
+
+
+class RoadSegmentRelatedDataView(APIView):
+    """
+    Informações de medição de velocidade por segmento de estrada.
+
+    <expandir a documentação>
+    """
+
+    http_method_names = ["get"]
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        response = RoadSegmentRepository.get_speed_measurements_per_road()
+        return Response(
+            MeasurementsPerRoadSegmentSerializer(response, many=True).data,
+            status=status.HTTP_200_OK,
+        )

@@ -20,3 +20,10 @@ class RoadSegmentSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return RoadSegment.objects.create(**validated_data)
+
+
+class MeasurementsPerRoadSegmentSerializer(serializers.Serializer):
+    road_id = serializers.IntegerField(source="id")
+    count_of_speed_measurements = serializers.IntegerField(
+        source="speed_measurement_count"
+    )
