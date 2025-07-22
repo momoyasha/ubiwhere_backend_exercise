@@ -13,7 +13,7 @@ Um projeto backend usando Python/Django a título de exercício.
 Clone o projeto com:
 
 ```bash
-  git clone https://link-para-o-projeto
+  git clone https://github.com/momoyasha/ubiwhere_backend_exercise.git
 ```
 Ou faça download como .zip e extraia em algum diretório.
 
