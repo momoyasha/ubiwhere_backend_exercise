@@ -25,6 +25,9 @@ class SpeedMeasurementReadSerializer(serializers.Serializer):
 
 
 class SpeedMeasurementWriteSerializer(serializers.Serializer):
+    measurement_id = serializers.IntegerField(
+        required=False, default=None, allow_null=True
+    )
     speed = serializers.FloatField()
 
     # conecta o id fornecido no post com um objeto RoadSegment existente
