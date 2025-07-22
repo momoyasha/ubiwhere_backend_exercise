@@ -31,3 +31,10 @@ class SpeedMeasurementViewSet(ViewSet):
         return Response(
             SpeedMeasurementSerializer(data).data, status=status.HTTP_200_OK
         )
+
+    def destroy(self, request, pk=None):
+        response = SpeedMeasurementRepository.delete_speed_measurement_by_id(id=pk)
+        return Response({"status": response}, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        pass
