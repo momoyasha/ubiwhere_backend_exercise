@@ -2,6 +2,7 @@ from api.models.speed_measurement import SpeedMeasurement
 import csv
 from django.conf import settings
 from django.contrib.gis.geos import Point
+from api.repository.road_segment_repository import RoadSegmentRepository
 
 
 class SpeedMeasurementBusiness:
@@ -20,13 +21,16 @@ class SpeedMeasurementBusiness:
         with open(file_path) as csv_file:
             reader = csv.DictReader(csv_file)
             for row in reader:
+                road_segment = RoadSegmentRepository.get_or_create_road_segment(
+                    lat_start=float(row["Lat_start"]),
+                    long_start=float(row["Long_start"]),
+                    lat_end=float(row["Lat_end"]),
+                    long_end=float(row["Long_end"]),
+                    length=float(row["Length"]),
+                )
                 obj = SpeedMeasurement(
                     measurement_id=row["ID"],
-                    start_point=Point(
-                        float(row["Long_start"]), float(row["Lat_start"])
-                    ),
-                    end_point=Point(float(row["Long_end"]), float(row["Lat_end"])),
-                    length=row["Length"],
+                    road_segment=road_segment,
                     speed=float(row["Speed"]),
                 )
 
