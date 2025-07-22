@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from api.business.speed_measurement_business import SpeedMeasurementBusiness
+from api.business.speed_interval_business import SpeedIntervalBusiness
+from api.repository.speed_interval_repository import SpeedIntervalRepository
 
 
 class DebugView(APIView):
@@ -26,4 +28,5 @@ class PopulateInitialDataView(APIView):
 
     def get(self, request):
         SpeedMeasurementBusiness.populate_database_with_initial_data()
+        SpeedIntervalBusiness.populate_database_with_initial_data()
         return Response({"status": True}, status=status.HTTP_200_OK)
