@@ -116,3 +116,21 @@ class RoadSegmentRepository:
 
         logger.info(status_message)
         return status_message
+
+    @staticmethod
+    def create_road_segment(new_data: dict):
+        """
+        Cria um novo segmento de estrada a partir dos dados fornecidos.
+        """
+        status_message = ""
+
+        serializer = RoadSegmentSerializer(data=new_data)
+
+        if serializer.is_valid():
+            road_segment = serializer.save()
+            status_message = f"Registro de segmento de estrada (id: [{road_segment.id}]) criado com sucesso."
+        else:
+            status_message = f"Erro de validação: {serializer.errors}"
+
+        logger.error(status_message)
+        return status_message

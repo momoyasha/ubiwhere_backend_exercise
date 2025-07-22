@@ -13,7 +13,7 @@ class RoadSegmentViewSet(ViewSet):
     <expandir a documentação>
     """
 
-    http_method_names = ["get", "put", "patch", "delete"]
+    http_method_names = ["post", "get", "put", "delete"]
 
     def get_permissions(self):
         if self.action in ["list", "retrieve"]:
@@ -38,4 +38,8 @@ class RoadSegmentViewSet(ViewSet):
         response = RoadSegmentRepository.update_road_segment(
             id=pk, new_data=request.data
         )
+        return Response({"status": response}, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        response = RoadSegmentRepository.create_road_segment(new_data=request.data)
         return Response({"status": response}, status=status.HTTP_200_OK)
