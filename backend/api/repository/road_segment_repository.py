@@ -144,7 +144,7 @@ class RoadSegmentRepository:
         """
 
         try:
-            values = (
+            values = list(
                 RoadSegment.objects.annotate(
                     speed_measurement_count=Count("speedmeasurement")
                 )
