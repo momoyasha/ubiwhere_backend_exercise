@@ -16,23 +16,35 @@ from api.filters.road_segment_filters import RoadSegmentFilter
 from api.business.speed_interval_business import SpeedIntervalBusiness
 
 
+# a consulta à base direto no decorador faz o servidor quebrar
+# quando o container é criado pela primeira vez
+def get_traffic_intensity_parameter():
+    try:
+        description = (
+            "Filtra por intensidade de tráfego da última medição.\n\n"
+            "Valores possíveis (velocidades em km/h):\n"
+            f"{SpeedIntervalBusiness.get_current_intervals()}"
+        )
+    except Exception:
+        description = (
+            "Filtra por intensidade de tráfego da última medição.\n\n"
+            "Valores possíveis (velocidades em km/h): [intervalos indisponíveis]"
+        )
+
+    return OpenApiParameter(
+        name="traffic_intensity",
+        description=description,
+        required=False,
+        type=OpenApiTypes.STR,
+        location=OpenApiParameter.QUERY,
+    )
+
+
 @extend_schema_view(
     list=extend_schema(
         description="Lista todos os segmentos de estrada",
         responses=RoadSegmentSerializer(many=True),
-        parameters=[
-            OpenApiParameter(
-                name="traffic_intensity",
-                description=(
-                    "Filtra por intensidade de tráfego da última medição. \n \n"
-                    "Valores possíveis (velocidades em km/h): \n"
-                    f"{SpeedIntervalBusiness.get_current_intervals()}"
-                ),
-                required=False,
-                type=OpenApiTypes.STR,
-                location=OpenApiParameter.QUERY,
-            ),
-        ],
+        parameters=[get_traffic_intensity_parameter()],
     ),
     retrieve=extend_schema(
         description="Retorna um segmento de estrada específico",
