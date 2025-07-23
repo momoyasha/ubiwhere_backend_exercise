@@ -12,6 +12,7 @@ from api.serializers.road_segment_serializer import (
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
+from api.filters.road_segment_filters import RoadSegmentFilter
 
 
 @extend_schema_view(
@@ -85,8 +86,15 @@ class RoadSegmentViewSet(ViewSet):
 
     def list(self, request):
         data = RoadSegmentRepository.get_all_road_segments()
+
+        # traffic_intensity
+        filterset = RoadSegmentFilter(request.GET, queryset=data)
+
+        filtered_data = filterset.qs
+
         return Response(
-            RoadSegmentSerializer(data, many=True).data, status=status.HTTP_200_OK
+            RoadSegmentSerializer(filtered_data, many=True).data,
+            status=status.HTTP_200_OK,
         )
 
     def retrieve(self, request, id):

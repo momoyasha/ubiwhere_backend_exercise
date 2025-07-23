@@ -32,7 +32,7 @@ class SpeedMeasurementRepository:
         Retorna todos os objetos SpeedMeasurements salvos.
         """
         try:
-            speed_measurements = list(SpeedMeasurement.objects.all())
+            speed_measurements = SpeedMeasurement.objects.all()
         except Exception as ex:
             logger.info(ex)
             speed_measurements = None

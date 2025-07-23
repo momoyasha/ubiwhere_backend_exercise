@@ -52,7 +52,7 @@ class RoadSegmentRepository:
         Retorna todos os objetos RoadSegments salvos.
         """
         try:
-            road_segment = list(RoadSegment.objects.all())
+            road_segment = RoadSegment.objects.all()
         except Exception as ex:
             logger.info(ex)
             road_segment = None
@@ -144,7 +144,7 @@ class RoadSegmentRepository:
         """
 
         try:
-            values = list(
+            values = (
                 RoadSegment.objects.annotate(
                     speed_measurement_count=Count("speedmeasurement")
                 )
