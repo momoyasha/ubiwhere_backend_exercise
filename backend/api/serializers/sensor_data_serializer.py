@@ -4,6 +4,7 @@ from api.models.road_segment import RoadSegment
 from api.models.car import Car
 from api.models.sensor import Sensor
 from api.models.sensor_data import SensorData
+from api.serializers.speed_measurement_serializer import RoadSegmentSerializer
 
 
 class SensorDataSerializer(serializers.Serializer):
@@ -38,3 +39,25 @@ class SensorDataSerializer(serializers.Serializer):
             road_segment=road_segment,
             **validated_data,
         )
+
+
+class CarSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    license_plate = serializers.CharField()
+    created_at = serializers.DateTimeField()
+
+
+class SensorDataSensorSerializer(serializers.Serializer):
+    uuid = serializers.UUIDField()
+    name = serializers.CharField()
+
+
+class SensorDataSerializer(serializers.Serializer):
+    road_segment = RoadSegmentSerializer()
+    timestamp = serializers.DateTimeField()
+    sensor = SensorDataSensorSerializer()
+
+
+class SensorDataByCarSerializer(serializers.Serializer):
+    car = CarSerializer()
+    sensor_data = SensorDataSerializer(many=True)

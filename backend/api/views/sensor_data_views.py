@@ -1,11 +1,18 @@
 from rest_framework.response import Response
 from rest_framework import status
-from api.serializers.sensor_data_serializer import SensorDataSerializer
+from api.serializers.sensor_data_serializer import (
+    SensorDataSerializer,
+    SensorDataByCarSerializer,
+)
 from rest_framework.viewsets import ViewSet
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
+
+from api.business.sensor_business import SensorBusiness
+
 
 # para criar a permissão customizada
 from rest_framework.permissions import BasePermission
@@ -42,3 +49,33 @@ class SensorDataViewSet(ViewSet):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@extend_schema_view(
+    create=extend_schema(
+        description="Retorna dados referentes a um carro a partir da placa.",
+        request=SensorDataSerializer(many=True),
+        responses={201: None, 400: None},
+    )
+)
+class SensorDataByCarView(APIView):
+    """
+    Retorna dados referentes a um carro a partir da placa.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        license_plate = request.query_params.get("license_plate")
+
+        if not license_plate:
+            return Response(
+                {"error": "Parâmetro 'license_plate' é obrigatório."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        response = SensorBusiness.get_data_by_car(license_plate=license_plate)
+        return Response(
+            SensorDataByCarSerializer(response).data,
+            status=status.HTTP_200_OK,
+        )

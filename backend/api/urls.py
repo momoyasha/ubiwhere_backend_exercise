@@ -2,7 +2,7 @@ from rest_framework.routers import DefaultRouter
 from api.views.speed_measurement_views import SpeedMeasurementViewSet
 from api.views.road_segment_views import RoadSegmentViewSet, RoadSegmentRelatedDataView
 from django.urls import path
-from api.views.sensor_data_views import SensorDataViewSet
+from api.views.sensor_data_views import SensorDataViewSet, SensorDataByCarView
 
 router = DefaultRouter()
 
@@ -21,6 +21,11 @@ api_view_patterns = [
         "measurements_per_road/",
         RoadSegmentRelatedDataView.as_view(),
         name="measurements-per-road",
+    ),
+    path(
+        "sensor_data_by_car/",
+        SensorDataByCarView.as_view(),
+        name="sensor_data_by_car",
     ),
 ]
 
