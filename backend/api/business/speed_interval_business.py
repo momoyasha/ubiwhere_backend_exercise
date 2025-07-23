@@ -17,7 +17,7 @@ class SpeedIntervalBusiness:
         Classifica a velocidade fornecida de acordo com os
         intervalos de velocidade cadastrados.
         """
-        speed_intervals = list(SpeedInterval.objects.all())
+        speed_intervals = SpeedInterval.objects.all()
 
         for interval in speed_intervals:
             # se a velocidade é maior do que a mínima (se esta existir)
@@ -43,3 +43,25 @@ class SpeedIntervalBusiness:
         SpeedIntervalRepository.save_speed_interval(
             criticality=2, criticality_text="baixa", min_speed=50, max_speed=None
         )
+
+    @staticmethod
+    def get_current_intervals():
+        """
+        Apresenta os intervalos atuais para mostrar na documentação de API.
+        """
+        speed_intervals = SpeedInterval.objects.all()
+
+        intervals = []
+
+        for si in speed_intervals:
+            interval_description = f"- {si.criticality_text}: "
+            if si.min_speed and si.max_speed:
+                interval_description += f"de {si.min_speed} a {si.max_speed}"
+            elif si.max_speed:
+                interval_description += f"até {si.max_speed}"
+            elif si.min_speed:
+                interval_description += f"a partir de {si.min_speed}"
+
+            intervals.append(interval_description)
+
+        return "\n".join(intervals)

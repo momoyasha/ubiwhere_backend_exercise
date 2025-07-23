@@ -13,12 +13,26 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 from api.filters.road_segment_filters import RoadSegmentFilter
+from api.business.speed_interval_business import SpeedIntervalBusiness
 
 
 @extend_schema_view(
     list=extend_schema(
         description="Lista todos os segmentos de estrada",
         responses=RoadSegmentSerializer(many=True),
+        parameters=[
+            OpenApiParameter(
+                name="traffic_intensity",
+                description=(
+                    "Filtra por intensidade de tráfego da última medição. \n \n"
+                    "Valores possíveis (velocidades em km/h): \n"
+                    f"{SpeedIntervalBusiness.get_current_intervals()}"
+                ),
+                required=False,
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+            ),
+        ],
     ),
     retrieve=extend_schema(
         description="Retorna um segmento de estrada específico",
