@@ -18,9 +18,9 @@ Ou faça download como .zip e extraia em algum diretório.
 É necessário criar um arquivo .env na raíz do projeto com as seguintes chaves:
 
 ```
-POSTGRES_USER=nome de usuário
+POSTGRES_USER=nome_de_usuário
 POSTGRES_PASSWORD=senha
-POSTGRES_DB=nome da base de dados
+POSTGRES_DB=nome_da_base_de_dados
 ```
 A base de dados será criada via docker-compose utilizando essas variáveis, que também serão usadas pelo Django para estabelecer a conexão.
 
