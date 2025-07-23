@@ -9,7 +9,6 @@ class SpeedInterval(models.Model):
     seja não-nulo.
     """
 
-    # id = models.AutoField(primary_key=True)
     criticality = models.IntegerField(blank=False, null=False, unique=True)
     criticality_text = models.CharField(blank=False, null=False, unique=True)
     updated_at = models.DateTimeField(blank=False, null=False, auto_now=True)
