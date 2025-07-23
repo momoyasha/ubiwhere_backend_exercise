@@ -188,3 +188,5 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Endpoints que possibilitam a visualização, criação, edição ou exclusão de dados de medição de velocidade ou segmentos de estrada.",
     "VERSION": "0.0.1",
 }
+
+SENSOR_API_KEY = "23231c7a-80a7-4810-93b3-98a18ecfbc42"
