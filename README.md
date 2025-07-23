@@ -5,9 +5,7 @@ Um projeto backend usando Python/Django a título de exercício.
 
 
 ## Requisitos
-
-- Python 3.11
-- Docker
+- [Docker](https://www.docker.com/)
 
 ## Instalação
 Clone o projeto com:
@@ -20,16 +18,17 @@ Ou faça download como .zip e extraia em algum diretório.
 É necessário criar um arquivo .env na raíz do projeto com as seguintes chaves:
 
 ```
-POSTGRES_USER=[nome de usuário]
-POSTGRES_PASSWORD=[senha]
-POSTGRES_DB=[nome da base de dados]
+POSTGRES_USER=nome de usuário
+POSTGRES_PASSWORD=senha
+POSTGRES_DB=nome da base de dados
 ```
 A base de dados será criada via docker-compose utilizando essas variáveis, que também serão usadas pelo Django para estabelecer a conexão.
 
 
 Em um prompt de comando na pasta raíz do projeto, execute:
 ```
-  docker-compose up --build -d
+  docker compose build --no-cache
+  docker-compose up -d
 ```
     
 Isso vai criar um projeto com dois containeres, um para a base de dados em PostgreSQL (PostGIS) e um para o servidor Django.
