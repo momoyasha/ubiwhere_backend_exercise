@@ -53,4 +53,7 @@ O painel de administração fica em http://localhost:8000/admin. Use as credenci
 
 Uma documentação mais detalhada das APIs disponíveis pode ser encontrada em http://localhost:8000/api/docs.
 
+Dados iniciais são registrados na base de dados ao chamar http://localhost:8000/api/fill_initial_data/, com base nos arquivos em [backend/data](https://github.com/momoyasha/ubiwhere_backend_exercise/tree/main/backend/data).
+
 Endpoints usando métodos POST, PUT e DELETE são apenas acessíveis com permissão de administrador. É necessário passar um token de acesso correspondente para acessá-los.
+Acesse http://localhost:8000/api/token/, enviando username e password no corpo da requisição, para adquirir os códigos access e refresh necessários.
