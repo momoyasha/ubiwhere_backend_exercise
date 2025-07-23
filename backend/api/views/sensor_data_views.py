@@ -52,10 +52,19 @@ class SensorDataViewSet(ViewSet):
 
 
 @extend_schema_view(
-    create=extend_schema(
+    get=extend_schema(
         description="Retorna dados referentes a um carro a partir da placa.",
         request=SensorDataSerializer(many=True),
         responses={201: None, 400: None},
+        parameters=[
+            OpenApiParameter(
+                name="license_plate",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH,
+                description="Código da placa do carro",
+                required=True,
+            ),
+        ],
     )
 )
 class SensorDataByCarView(APIView):
